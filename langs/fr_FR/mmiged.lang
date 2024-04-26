@@ -25,21 +25,18 @@ ModuleMMIGEDDesc = Doc techniques produit et BDC fournisseurs
 #
 # Admin page
 #
-MMIGEDSetup = MMIGED setup
-Settings = Settings
-MMIGEDSetupPage = MMIGED setup page
-MMIGED_MYPARAM1 = My param 1
-MMIGED_MYPARAM1Tooltip = My param 1 tooltip
-MMIGED_MYPARAM2=My param 2
-MMIGED_MYPARAM2Tooltip=My param 2 tooltip
+MMIGEDSetup = MMIGED Configuration
+Settings = Configuration
+MMIGEDSetupPage = MMIGED Configuration
+MMIGED_PRODUCT_DOC = Champs produit pour associer des docs techbnique & BDC fournisseur
 
 
 #
 # About page
 #
-About = About
-MMIGEDAbout = About MMIGED
-MMIGEDAboutPage = MMIGED about page
+About = A propos
+MMIGEDAbout = A propos de MMIGED
+MMIGEDAboutPage = A propos de MMIGED
 
 #
 # Sample page
@@ -52,3 +49,9 @@ MyPageName = My page name
 #
 MyWidget = My widget
 MyWidgetDescription = My widget description
+
+#
+# Extrafields
+#
+Extrafield_fk_doc_tec = Document technique fournisseur
+Extrafield_fk_doc_bdc = BDC Fournisseur

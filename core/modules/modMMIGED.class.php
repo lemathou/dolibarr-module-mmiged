@@ -136,7 +136,7 @@ class modMMIGED extends DolibarrModules
 		// A condition to hide module
 		$this->hidden = false;
 		// List of module class names that must be enabled if this module is enabled. Example: array('always'=>array('modModuleToEnable1','modModuleToEnable2'), 'FR'=>array('modModuleToEnableFR')...)
-		$this->depends = array();
+		$this->depends = array('modMMICommon', 'modECM');
 		// List of module class names to disable if this one is disabled. Example: array('modModuleToDisable1', ...)
 		$this->requiredby = array();
 		// List of module class names this module is in conflict with. Example: array('modModuleToDisable1', ...)
@@ -300,21 +300,21 @@ class modMMIGED extends DolibarrModules
 		$r = 0;
 		// Add here entries to declare new menus
 		/* BEGIN MODULEBUILDER TOPMENU */
-		$this->menu[$r++] = array(
-			'fk_menu'=>'', // '' if this is a top menu. For left menu, use 'fk_mainmenu=xxx' or 'fk_mainmenu=xxx,fk_leftmenu=yyy' where xxx is mainmenucode and yyy is a leftmenucode
-			'type'=>'top', // This is a Top menu entry
-			'titre'=>'ModuleMMIGEDName',
-			'prefix' => img_picto('', $this->picto, 'class="pictofixedwidth valignmiddle"'),
-			'mainmenu'=>'mmiged',
-			'leftmenu'=>'',
-			'url'=>'/mmiged/mmigedindex.php',
-			'langs'=>'mmiged@mmiged', // Lang file to use (without .lang) by module. File must be in langs/code_CODE/ directory.
-			'position'=>1000 + $r,
-			'enabled'=>'isModEnabled("mmiged")', // Define condition to show or hide menu entry. Use 'isModEnabled("mmiged")' if entry must be visible if module is enabled.
-			'perms'=>'1', // Use 'perms'=>'$user->hasRight("mmiged", "myobject", "read")' if you want your menu with a permission rules
-			'target'=>'',
-			'user'=>2, // 0=Menu for internal users, 1=external users, 2=both
-		);
+		// $this->menu[$r++] = array(
+		// 	'fk_menu'=>'', // '' if this is a top menu. For left menu, use 'fk_mainmenu=xxx' or 'fk_mainmenu=xxx,fk_leftmenu=yyy' where xxx is mainmenucode and yyy is a leftmenucode
+		// 	'type'=>'top', // This is a Top menu entry
+		// 	'titre'=>'ModuleMMIGEDName',
+		// 	'prefix' => img_picto('', $this->picto, 'class="pictofixedwidth valignmiddle"'),
+		// 	'mainmenu'=>'mmiged',
+		// 	'leftmenu'=>'',
+		// 	'url'=>'/mmiged/mmigedindex.php',
+		// 	'langs'=>'mmiged@mmiged', // Lang file to use (without .lang) by module. File must be in langs/code_CODE/ directory.
+		// 	'position'=>1000 + $r,
+		// 	'enabled'=>'isModEnabled("mmiged")', // Define condition to show or hide menu entry. Use 'isModEnabled("mmiged")' if entry must be visible if module is enabled.
+		// 	'perms'=>'1', // Use 'perms'=>'$user->hasRight("mmiged", "myobject", "read")' if you want your menu with a permission rules
+		// 	'target'=>'',
+		// 	'user'=>2, // 0=Menu for internal users, 1=external users, 2=both
+		// );
 		/* END MODULEBUILDER TOPMENU */
 		/* BEGIN MODULEBUILDER LEFTMENU MYOBJECT */
 		/*$this->menu[$r++]=array(
@@ -448,13 +448,13 @@ class modMMIGED extends DolibarrModules
 		}
 
 		// Create extrafields during init
-		//include_once DOL_DOCUMENT_ROOT.'/core/class/extrafields.class.php';
-		//$extrafields = new ExtraFields($this->db);
-		//$result1=$extrafields->addExtraField('mmiged_myattr1', "New Attr 1 label", 'boolean', 1,  3, 'thirdparty',   0, 0, '', '', 1, '', 0, 0, '', '', 'mmiged@mmiged', 'isModEnabled("mmiged")');
-		//$result2=$extrafields->addExtraField('mmiged_myattr2', "New Attr 2 label", 'varchar', 1, 10, 'project',      0, 0, '', '', 1, '', 0, 0, '', '', 'mmiged@mmiged', 'isModEnabled("mmiged")');
-		//$result3=$extrafields->addExtraField('mmiged_myattr3', "New Attr 3 label", 'varchar', 1, 10, 'bank_account', 0, 0, '', '', 1, '', 0, 0, '', '', 'mmiged@mmiged', 'isModEnabled("mmiged")');
-		//$result4=$extrafields->addExtraField('mmiged_myattr4', "New Attr 4 label", 'select',  1,  3, 'thirdparty',   0, 1, '', array('options'=>array('code1'=>'Val1','code2'=>'Val2','code3'=>'Val3')), 1,'', 0, 0, '', '', 'mmiged@mmiged', 'isModEnabled("mmiged")');
-		//$result5=$extrafields->addExtraField('mmiged_myattr5', "New Attr 5 label", 'text',    1, 10, 'user',         0, 0, '', '', 1, '', 0, 0, '', '', 'mmiged@mmiged', 'isModEnabled("mmiged")');
+		include_once DOL_DOCUMENT_ROOT.'/core/class/extrafields.class.php';
+		$extrafields = new ExtraFields($this->db);
+
+		// Produits : champs doc technique
+		$extrafields->addExtraField('fk_doc_tec', $langs->trans('Extrafield_fk_doc_tec'), 'sellist', 75, '', 'product', 0, 0, '', "a:1:{s:7:\"options\";a:1:{s:156:\"ecm_files:filename:rowid::filepath LIKE CONCAT('ecm/Fournisseurs/', (\$SEL\$ fk_soc_fournisseur FROM llx_product_extrafields WHERE fk_object=\$ID\$), '-%/tec%')\";N;}}", 1, '', -1, $langs->trans('ExtrafieldToolTip_fk_doc_tec'), '', $conf->entity, 'mmiged@mmiged', '$conf->mmiged->enabled && $conf->global->MMIGED_PRODUCT_DOC');
+		$extrafields->addExtraField('fk_doc_bdc', $langs->trans('Extrafield_fk_doc_bdc'), 'sellist', 75, '', 'product', 0, 0, '', "a:1:{s:7:\"options\";a:1:{s:156:\"ecm_files:filename:rowid::filepath LIKE CONCAT('ecm/Fournisseurs/', (\$SEL\$ fk_soc_fournisseur FROM llx_product_extrafields WHERE fk_object=\$ID\$), '-%/bdc%')\";N;}}", 1, '', -1, $langs->trans('ExtrafieldToolTip_fk_doc_bdc'), '', $conf->entity, 'mmiged@mmiged', '$conf->mmiged->enabled && $conf->global->MMIGED_PRODUCT_DOC');
+		
 
 		// Permissions
 		$this->remove($options);
