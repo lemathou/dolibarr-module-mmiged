@@ -26,7 +26,6 @@ ModuleMMIGEDDesc = Doc techniques produit et BDC fournisseurs
 # Admin page
 #
 MMIGEDSetup = MMIGED Configuration
-Settings = Configuration
 MMIGEDSetupPage = MMIGED Configuration
 MMIGED_PRODUCT_DOC = Champs produit pour associer des docs techbnique & BDC fournisseur
 
@@ -34,7 +33,6 @@ MMIGED_PRODUCT_DOC = Champs produit pour associer des docs techbnique & BDC four
 #
 # About page
 #
-About = A propos
 MMIGEDAbout = A propos de MMIGED
 MMIGEDAboutPage = A propos de MMIGED
 
